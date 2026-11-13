@@ -1,12 +1,10 @@
 :root {
-  /* Identidade Instituto IQO (extraída de iqo.com.br) */
+  /* Identidade Instituto IQO (iqo.com.br) */
   --iqo-teal: #276D69;
   --iqo-teal-dark: #1d5350;
   --iqo-aqua: #01D3BE;
   --iqo-mint: #CEFFFA;
   --iqo-mint-soft: #EEFFFD;
-  --iqo-ink: #0D0D0D;
-  --iqo-muted: #7A7A7A;
 
   /* iOS Clean System Tokens */
   --ios-bg: #F2F2F7;
@@ -19,7 +17,6 @@
 
   /* Prototype Studio Tokens */
   --proto-bg: #0f171a;
-  --proto-surface: #162226;
   --proto-border: rgba(206, 255, 250, 0.14);
   --proto-text: #e6f2f1;
   --proto-muted: #8fa9a6;
@@ -51,17 +48,19 @@ body.proto-mode {
     linear-gradient(to bottom, rgba(39, 109, 105, 0.12), transparent 240px);
   background-size: 22px 22px, 100% 100%;
   color: var(--proto-text);
+  display: flex;
+  flex-direction: column;
 }
 
 /* =========================================================
-   BARRA SUPERIOR DE PROTÓTIPO
+   BARRA SUPERIOR MINIMALISTA DE PROTÓTIPO
    ========================================================= */
 .proto-topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 12px 24px;
+  gap: 12px;
+  padding: 10px 22px;
   background: rgba(15, 23, 26, 0.88);
   backdrop-filter: blur(14px);
   border-bottom: 1px dashed var(--proto-border);
@@ -74,15 +73,15 @@ body.proto-mode {
 .proto-topbar-left {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .proto-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 5px 10px;
+  gap: 7px;
+  padding: 4px 10px;
   border-radius: 6px;
   background: rgba(251, 191, 36, 0.12);
   border: 1px dashed rgba(251, 191, 36, 0.45);
@@ -98,7 +97,6 @@ body.proto-mode {
   height: 7px;
   border-radius: 50%;
   background: var(--proto-amber);
-  box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
   animation: pulseDot 1.8s infinite;
 }
 
@@ -108,48 +106,27 @@ body.proto-mode {
   100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
 }
 
-.proto-title-group {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.25;
-}
-
-.proto-title-group strong {
-  font-size: 14px;
+.proto-title {
+  font-size: 13.5px;
+  font-weight: 600;
   color: #ffffff;
-}
-
-.proto-title-group span {
-  font-size: 12px;
-  color: var(--proto-muted);
 }
 
 .proto-topbar-actions {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
 }
 
 .proto-btn {
   border: 1px solid transparent;
   border-radius: 8px;
-  padding: 7px 12px;
+  padding: 6px 12px;
   font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.18s ease;
-}
-
-.proto-btn-ghost {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--proto-text);
-  border-color: rgba(255, 255, 255, 0.08);
-}
-
-.proto-btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.11);
 }
 
 .proto-btn-outline {
@@ -173,217 +150,16 @@ body.proto-mode {
 }
 
 /* =========================================================
-   WORKSPACE DE PROTÓTIPO (SIDEBAR + PALCO)
-   ========================================================= */
-.proto-workspace {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 24px;
-  display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: 28px;
-  align-items: start;
-}
-
-.proto-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.proto-card {
-  background: rgba(22, 34, 38, 0.85);
-  border: 1px solid var(--proto-border);
-  border-radius: 14px;
-  padding: 16px;
-}
-
-.proto-card-note {
-  border-style: dashed;
-  background: rgba(39, 109, 105, 0.12);
-}
-
-.proto-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.proto-mono-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--iqo-aqua);
-}
-
-.proto-tag {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  padding: 2px 7px;
-  border-radius: 99px;
-  background: rgba(206, 255, 250, 0.12);
-  color: var(--iqo-mint);
-}
-
-.proto-desc {
-  margin: 0 0 12px;
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--proto-muted);
-}
-
-.proto-desc strong {
-  color: #ffffff;
-}
-
-.proto-link-btn {
-  background: none;
-  border: none;
-  color: var(--proto-muted);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-/* Fluxograma ao vivo */
-.flow-diagram {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.flow-node {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  transition: all 0.25s ease;
-  opacity: 0.65;
-}
-
-.flow-node.is-active {
-  opacity: 1;
-  background: rgba(1, 211, 190, 0.12);
-  border-color: var(--iqo-aqua);
-  box-shadow: 0 0 0 1px rgba(1, 211, 190, 0.25);
-}
-
-.flow-node-step {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
-  flex-shrink: 0;
-}
-
-.flow-node.is-active .flow-node-step {
-  background: var(--iqo-aqua);
-  color: #062826;
-}
-
-.flow-node-body {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.flow-node-body strong {
-  font-size: 12.5px;
-  color: #ffffff;
-}
-
-.flow-node-body span {
-  font-size: 11px;
-  color: var(--proto-muted);
-}
-
-.flow-branches {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  padding-left: 12px;
-  border-left: 1px dashed rgba(255, 255, 255, 0.16);
-}
-
-.flow-branch {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.flow-arrow {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 6px;
-  width: fit-content;
-}
-
-.flow-arrow-warn {
-  background: rgba(251, 191, 36, 0.14);
-  color: var(--proto-amber);
-}
-
-.flow-arrow-ok {
-  background: rgba(1, 211, 190, 0.14);
-  color: var(--iqo-aqua);
-}
-
-/* Log de eventos */
-.proto-log {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-height: 170px;
-  overflow-y: auto;
-}
-
-.proto-log-item {
-  display: flex;
-  gap: 8px;
-  font-size: 12px;
-  line-height: 1.4;
-  color: var(--proto-muted);
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.log-time {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--iqo-aqua);
-  flex-shrink: 0;
-}
-
-.log-msg strong {
-  color: #ffffff;
-}
-
-/* =========================================================
-   PALCO DO IPHONE & MOLDURA iOS
+   PALCO CENTRAL DO IPHONE
    ========================================================= */
 .proto-stage {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 12px;
-  position: relative;
+  padding: 20px 16px 28px;
 }
 
 .proto-screen-tag {
@@ -461,8 +237,8 @@ body.proto-mode {
 
 .ios-viewport {
   background: var(--ios-bg);
-  min-height: 680px;
-  max-height: 720px;
+  min-height: 640px;
+  max-height: 700px;
   overflow-y: auto;
   position: relative;
   padding: 8px 18px 24px;
@@ -492,7 +268,7 @@ body.proto-mode {
   display: none;
   flex-direction: column;
   gap: 14px;
-  animation: iosSlideIn 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: iosSlideIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .app-screen.is-active {
@@ -502,7 +278,7 @@ body.proto-mode {
 @keyframes iosSlideIn {
   from {
     opacity: 0;
-    transform: translateY(12px) scale(0.985);
+    transform: translateY(10px) scale(0.985);
   }
   to {
     opacity: 1;
@@ -621,7 +397,7 @@ body.proto-mode {
 }
 
 .ios-subtitle-sm {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   font-size: 13.5px;
 }
 
@@ -751,7 +527,7 @@ body.proto-mode {
   padding-top: 4px;
 }
 
-/* Sub-header de navegação iOS */
+/* Sub-header iOS */
 .ios-sub-header {
   display: flex;
   align-items: center;
@@ -779,7 +555,7 @@ body.proto-mode {
   width: 48px;
 }
 
-/* Pills e Inputs do Fluxo 1-3 Estrelas */
+/* Pills e Inputs (1-3★ simplificado) */
 .route-pill {
   display: inline-flex;
   align-items: center;
@@ -802,19 +578,11 @@ body.proto-mode {
   color: var(--iqo-teal);
 }
 
-.ios-label {
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--ios-text);
-  margin-bottom: 8px;
-  display: block;
-}
-
 .chip-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .ios-chip {
@@ -822,7 +590,7 @@ body.proto-mode {
   background: #F9F9FB;
   color: var(--ios-text);
   border-radius: 99px;
-  padding: 7px 12px;
+  padding: 7px 13px;
   font-size: 12.5px;
   font-weight: 500;
   cursor: pointer;
@@ -835,28 +603,27 @@ body.proto-mode {
   border-color: var(--iqo-teal);
 }
 
-.ios-textarea,
-.ios-input {
+.ios-textarea {
   width: 100%;
   border: 1px solid #E5E5EA;
   background: #F9F9FB;
   border-radius: 14px;
-  padding: 11px 13px;
+  padding: 12px 14px;
   font-family: var(--font-sans);
   font-size: 13.5px;
   color: var(--ios-text);
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   outline: none;
+  resize: none;
   transition: border-color 0.18s ease, background-color 0.18s ease;
 }
 
-.ios-textarea:focus,
-.ios-input:focus {
+.ios-textarea:focus {
   border-color: var(--iqo-teal);
   background: #ffffff;
 }
 
-/* Status Circles e Cards de Confirmação */
+/* Status Circles e Simulação */
 .status-circle {
   width: 60px;
   height: 60px;
@@ -886,39 +653,24 @@ body.proto-mode {
   margin-bottom: 18px;
 }
 
-.proto-sim-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.proto-sim-label {
+  display: block;
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 600;
   color: var(--iqo-teal);
-  margin-bottom: 6px;
-}
-
-.proto-ticket {
-  background: var(--iqo-mint);
-  padding: 2px 6px;
-  border-radius: 4px;
+  margin-bottom: 5px;
 }
 
 .proto-sim-text {
-  margin: 0 0 8px;
+  margin: 0;
   font-size: 12.5px;
   line-height: 1.45;
-  color: var(--ios-text);
-}
-
-.proto-sim-url {
-  font-size: 11px;
   color: var(--ios-subtext);
-  word-break: break-word;
 }
 
-.proto-sim-url code {
-  font-family: var(--font-mono);
-  color: var(--iqo-teal);
+.proto-sim-text strong {
+  color: var(--ios-text);
 }
 
 /* Preview Google Card */
@@ -1001,23 +753,20 @@ body.patient-fullscreen {
 }
 
 body.patient-fullscreen .proto-topbar,
-body.patient-fullscreen .proto-sidebar,
 body.patient-fullscreen .proto-screen-tag,
 body.patient-fullscreen .ios-statusbar,
 body.patient-fullscreen .ios-home-indicator {
   display: none;
 }
 
-body.patient-fullscreen .proto-workspace {
-  display: block;
+body.patient-fullscreen .proto-stage {
   padding: 0;
-  max-width: 100%;
+  justify-content: flex-start;
 }
 
 body.patient-fullscreen .iphone-frame {
   width: 100%;
   max-width: 440px;
-  margin: 0 auto;
 }
 
 body.patient-fullscreen .iphone-bezel {
@@ -1058,20 +807,3 @@ body.patient-fullscreen .exit-fullscreen-pill {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
-
-/* Responsivo */
-@media (max-width: 960px) {
-  .proto-workspace {
-    grid-template-columns: 1fr;
-    padding: 16px;
-  }
-
-  .proto-sidebar {
-    order: 2;
-  }
-
-  .proto-stage {
-    order: 1;
-  }
-}
-
