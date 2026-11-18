@@ -1,7 +1,7 @@
 (() => {
   // Cole aqui a URL do seu webhook (Google Apps Script, Make, n8n, Formspree, etc.)
   // para receber automaticamente as avaliações em produção.
-  const WEBHOOK_URL = '';
+  const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxJYLSD4zTfXHFpPyUQfYyT19q3YKt0Bn6P6o27W-8iAUp9z4DAbUw044np6TtuJ_vvwg/exec';
 
   const RATING_LABELS = {
     1: { text: '1 estrela · Muito insatisfeito', tone: 'is-low' },
@@ -42,7 +42,8 @@
     try {
       await fetch(WEBHOOK_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload),
       });
     } catch (_) {
