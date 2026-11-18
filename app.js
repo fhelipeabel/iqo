@@ -1,4 +1,8 @@
 (() => {
+  // Cole aqui a URL do seu webhook (Google Apps Script, Make, n8n, Formspree, etc.)
+  // para receber automaticamente as avaliações em produção.
+  const WEBHOOK_URL = '';
+
   const RATING_LABELS = {
     1: { text: '1 estrela · Muito insatisfeito', tone: 'is-low' },
     2: { text: '2 estrelas · Insatisfeito', tone: 'is-low' },
@@ -7,65 +11,42 @@
     5: { text: '5 estrelas · Excelente!', tone: 'is-high' },
   };
 
-  const SCREEN_TAGS = {
-    rating: '[ TELA 01 · AVALIAÇÃO ]',
-    feedback: '[ TELA 2A · DESVIO 1–3★ ]',
-    'feedback-sent': '[ TELA 3A · CONFIRMAÇÃO INTERNA ]',
-    google: '[ TELA 2B · REDIRECT GOOGLE (4–5★) ]',
-  };
-
   const state = {
     rating: 0,
     reasons: new Set(),
   };
 
   const screens = document.querySelectorAll('.app-screen');
-  const screenTagEl = document.getElementById('protoScreenTag');
-  const toastEl = document.getElementById('protoToast');
-
-  // Tela 1
   const starButtons = document.querySelectorAll('.star-btn');
   const ratingFeedbackPill = document.getElementById('ratingFeedbackPill');
   const btnContinueRating = document.getElementById('btnContinueRating');
 
-  // Tela 2A / 3A
   const reasonChips = document.querySelectorAll('.ios-chip');
   const feedbackDetails = document.getElementById('feedbackDetails');
   const btnBackFromFeedback = document.getElementById('btnBackFromFeedback');
   const btnSubmitFeedback = document.getElementById('btnSubmitFeedback');
-  const btnDoneFeedback = document.getElementById('btnDoneFeedback');
-  const summaryStars = document.getElementById('summaryStars');
-  const summaryReasons = document.getElementById('summaryReasons');
 
-  // Tela 2B
   const googleStarsBadge = document.getElementById('googleStarsBadge');
   const btnBackFromGoogle = document.getElementById('btnBackFromGoogle');
   const btnOpenGoogle = document.getElementById('btnOpenGoogle');
-  const btnGoogleLater = document.getElementById('btnGoogleLater');
-
-  // Controles do Protótipo
-  const btnReset = document.getElementById('btnReset');
-  const btnToggleFullscreen = document.getElementById('btnToggleFullscreen');
-  const btnExitFullscreen = document.getElementById('btnExitFullscreen');
-
-  let toastTimer = null;
-
-  function showToast(message) {
-    toastEl.textContent = message;
-    toastEl.classList.add('is-visible');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-      toastEl.classList.remove('is-visible');
-    }, 2400);
-  }
 
   function goToScreen(screenName) {
     screens.forEach((screen) => {
       screen.classList.toggle('is-active', screen.dataset.screen === screenName);
     });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
-    if (SCREEN_TAGS[screenName]) {
-      screenTagEl.textContent = SCREEN_TAGS[screenName];
+  async function sendPayload(payload) {
+    if (!WEBHOOK_URL) return;
+    try {
+      await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } catch (_) {
+      // Falha silenciosa para não travar a experiência do paciente
     }
   }
 
@@ -94,25 +75,6 @@
     }
   }
 
-  function resetPrototype(silent = false) {
-    state.rating = 0;
-    state.reasons.clear();
-
-    starButtons.forEach((btn) => btn.classList.remove('is-selected'));
-    ratingFeedbackPill.textContent = 'Toque em uma estrela para avaliar';
-    ratingFeedbackPill.className = 'rating-feedback-pill';
-    btnContinueRating.disabled = true;
-
-    reasonChips.forEach((chip) => chip.classList.remove('is-active'));
-    feedbackDetails.value = '';
-
-    goToScreen('rating');
-
-    if (!silent) {
-      showToast('Protótipo reiniciado');
-    }
-  }
-
   starButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       selectRating(Number(btn.dataset.value));
@@ -136,35 +98,32 @@
 
   btnBackFromFeedback.addEventListener('click', () => goToScreen('rating'));
 
-  btnSubmitFeedback.addEventListener('click', () => {
-    const selected = Array.from(state.reasons);
-    summaryStars.textContent = `${state.rating}★`;
-    summaryReasons.textContent = selected.length > 0 ? selected.join(', ') : 'Geral';
-    goToScreen('feedback-sent');
-    showToast('Feedback privado simulado');
-  });
+  btnSubmitFeedback.addEventListener('click', async () => {
+    btnSubmitFeedback.disabled = true;
+    btnSubmitFeedback.textContent = 'Enviando...';
 
-  btnDoneFeedback.addEventListener('click', () => resetPrototype(false));
+    await sendPayload({
+      rating: state.rating,
+      route: 'private_feedback',
+      reasons: Array.from(state.reasons),
+      comment: feedbackDetails.value.trim(),
+      timestamp: new Date().toISOString(),
+    });
+
+    btnSubmitFeedback.disabled = false;
+    btnSubmitFeedback.textContent = 'Enviar feedback';
+    goToScreen('feedback-sent');
+  });
 
   btnBackFromGoogle.addEventListener('click', () => goToScreen('rating'));
 
   btnOpenGoogle.addEventListener('click', () => {
-    showToast('Abrindo Google Avaliações...');
+    sendPayload({
+      rating: state.rating,
+      route: 'google_review',
+      reasons: [],
+      comment: '',
+      timestamp: new Date().toISOString(),
+    });
   });
-
-  btnGoogleLater.addEventListener('click', () => resetPrototype(false));
-
-  btnReset.addEventListener('click', () => resetPrototype(false));
-
-  function togglePatientMode(forceState) {
-    const isFullscreen = typeof forceState === 'boolean'
-      ? forceState
-      : !document.body.classList.contains('patient-fullscreen');
-
-    document.body.classList.toggle('patient-fullscreen', isFullscreen);
-    btnToggleFullscreen.textContent = isFullscreen ? 'Modo Protótipo' : 'Modo Paciente';
-  }
-
-  btnToggleFullscreen.addEventListener('click', () => togglePatientMode());
-  btnExitFullscreen.addEventListener('click', () => togglePatientMode(false));
 })();
